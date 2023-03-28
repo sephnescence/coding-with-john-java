@@ -47,7 +47,7 @@ public class HelloWorld {
 
 //        final String exampleFinal = "This is final"; // Equivalent of const in JS
     }
-    
+
     public static void toUpperCaseByReference(String stringToUpperCase) {
 
     }
