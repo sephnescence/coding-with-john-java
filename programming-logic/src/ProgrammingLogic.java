@@ -13,15 +13,21 @@ public class ProgrammingLogic {
         while (currentGuess != theNumberToGuess) {
             System.out.println("Guess the number...");
 
+            // Apparently try, catch and finally appear on new lines
             try {
                 currentGuess = input.nextInt();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
+                // e.printStackTrace(); // You may wish to print the stack trace
                 String flush = input.nextLine();
                 System.out.println("Please enter a valid number. Flushing: " + flush);
 
                 currentGuess = -1;
                 continue;
             }
+//            finally {
+//                System.out.println("There's no need to actually run this example");
+//            }
 
             if (currentGuess < theNumberToGuess) {
                 System.out.print("Your guess was too low. ");
