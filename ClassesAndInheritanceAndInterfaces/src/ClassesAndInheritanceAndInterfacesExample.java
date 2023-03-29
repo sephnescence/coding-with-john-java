@@ -55,7 +55,7 @@ public class ClassesAndInheritanceAndInterfacesExample {
     }
 
     interface IAnimalInterface {
-        abstract public void makeNoise();
+        void makeNoise(); // Apparently abstract public are redundant
     }
 
     abstract static class Animal implements IAnimalInterface {
@@ -97,7 +97,7 @@ public class ClassesAndInheritanceAndInterfacesExample {
         @Override
         public void makeNoise() {
             // Apparently you don't need the override here, but intelliJ put it in anyways
-            // Odd given the method is abstract
+            // Odd given the method is abstract. IntelliJ mentioned that abstract is redundant though. Makes sense
 
             System.out.println("Meow");
         }
