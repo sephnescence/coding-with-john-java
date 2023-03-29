@@ -23,6 +23,25 @@ public class ClassesAndInheritanceAndInterfacesExample {
             animal.speak();
         }
 
+        System.out.println("Checking if a Cat and Dog are the same. Spoiler, no. I made it so that comparing to another Animal will always return false");
+
+        // Without having defined equals() yet, intelliJ gives me a warning about this
+        // It says 'equals' between objects of inconvertible type 'Cat' and 'Dog'
+        // But it doesn't throw any errors
+        System.out.println(animals[0].equals(animals[1]));
+
+        /*
+        It's worth noting that equals is just calling double equals. triple equals (===) is not a thing like js
+
+        java/lang/Object.java has the equals and toString methods made already, so you don't have to
+
+        public boolean equals(Object obj) { return (this == obj); }
+        public String toString() { return getClass().getName() + "@" + Integer.toHexString(hashCode()); }
+        */
+
+        System.out.println("Checking if a Dog and BorderCollie are the same. Spoiler, yes. I updated Dog so that it will return true when compared to other dogs");
+        System.out.println(animals[1].equals(animals[2]));
+
         /*
         Output:
 
@@ -48,12 +67,21 @@ public class ClassesAndInheritanceAndInterfacesExample {
 //            return getClass().getName(); // Returns ClassesAndInheritanceAndInterfacesExample$Cat, ClassesAndInheritanceAndInterfacesExample$Dog, ClassesAndInheritanceAndInterfacesExample$BorderCollies
             return getClass().getSimpleName(); // Returns Cat/Dog/BorderCollie
         }
+
+        public boolean equals(Animal otherAnimal) {
+            return false; // Just blanket say no
+        }
     }
 
     static class Dog extends Animal {
         @Override
         public void makeNoise() {
             System.out.println("Woof");
+        }
+
+        @Override
+        public boolean equals(Animal otherAnimal) {
+            return otherAnimal instanceof Dog;
         }
     }
 
