@@ -19,8 +19,18 @@ public class ClassesAndInheritanceAndInterfacesExample {
         animals[2] = new BorderCollie();
 
         for (Animal animal : animals) {
+            System.out.print(animal + " says: ");
             animal.speak();
         }
+
+        /*
+        Output:
+
+        Cat says: Meow
+        Dog says: Woof
+        BorderCollie says: Woof
+        Bark! (Border Collies are very excitable)
+         */
 
         // In js you use let/const, you can have an equivalent of const by adding final to the variable name
     }
@@ -32,6 +42,11 @@ public class ClassesAndInheritanceAndInterfacesExample {
     abstract static class Animal implements IAnimalInterface {
         final public void speak() {
             this.makeNoise();
+        }
+
+        final public String toString() {
+//            return getClass().getName(); // Returns ClassesAndInheritanceAndInterfacesExample$Cat, ClassesAndInheritanceAndInterfacesExample$Dog, ClassesAndInheritanceAndInterfacesExample$BorderCollies
+            return getClass().getSimpleName(); // Returns Cat/Dog/BorderCollie
         }
     }
 
