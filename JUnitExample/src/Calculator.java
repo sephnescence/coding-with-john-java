@@ -1,5 +1,5 @@
 // Following a tutorial from https://www.jetbrains.com/help/idea/junit.html#intellij
-// That said, I had trouble getting through the Maven instructions as I didn't have a pom.xml
+// This was done by using intelliJ as the build system
 
 import java.util.stream.DoubleStream;
 
