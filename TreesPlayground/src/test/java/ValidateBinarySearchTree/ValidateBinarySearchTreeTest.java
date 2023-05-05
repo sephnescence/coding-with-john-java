@@ -26,4 +26,27 @@ class ValidateBinarySearchTreeTest {
 
         assertFalse(solution.isValidBST(root));
     }
+
+    @Test
+    void testPersonalScenario() {
+        // Ok so strictly speaking this isn't valid. Confirmed
+        // Borrowing from MinimumAbsoluteDifferenceInBSTTest
+        // [979,3,2997,null,978,1254,null,null,2048]
+
+        TreeNode root = GenerateTreeNodesFromString.fromIntegerArray(new Integer[]{979,3,2997,null,978,1254,null,null,2048});
+        ValidateBinarySearchTree solution = new ValidateBinarySearchTree();
+
+        assertFalse(solution.isValidBST(root));
+    }
+
+    @Test
+    void testPersonalScenarioBasedOnLeetcode() {
+        // Borrowing from MinimumAbsoluteDifferenceInBSTTest
+        // [979,3,2997,null,null,1254,null,null,2048]
+
+        TreeNode root = GenerateTreeNodesFromString.fromIntegerArray(new Integer[]{979,3,2997,null,null,1254,null,null,2048});
+        ValidateBinarySearchTree solution = new ValidateBinarySearchTree();
+
+        assertTrue(solution.isValidBST(root));
+    }
 }
