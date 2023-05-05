@@ -65,4 +65,37 @@ public class TreeNode {
         }
         return output + "]";
     }
+
+    public boolean isValidBST() {
+        LinkedList<Integer> unfoldedBST = new LinkedList<>();
+        _unfoldBST(this, unfoldedBST);
+
+        if (unfoldedBST.isEmpty()) {
+            return true;
+        }
+
+        Integer prev = unfoldedBST.removeFirst();
+        while (!unfoldedBST.isEmpty()) {
+            Integer nextInt = unfoldedBST.removeFirst();
+            if (nextInt == null) {
+                continue;
+            }
+            if (nextInt <= prev) {
+                return false;
+            }
+            prev = nextInt;
+        }
+
+        return true;
+    }
+
+    private void _unfoldBST(TreeNode node, LinkedList<Integer> unfoldedBST) {
+        if (node == null) {
+            return;
+        }
+
+        _unfoldBST(node.left, unfoldedBST);
+        unfoldedBST.addLast(node.val);
+        _unfoldBST(node.right, unfoldedBST);
+    }
 }
