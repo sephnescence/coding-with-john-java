@@ -2,7 +2,7 @@ package MinimumAbsoluteDifferenceInBST;
 
 import Helpers.TreeNode;
 
-// This solution beats 58% in runtime and 37% in memory usage
+// This solution beats 59% in runtime and 89% in memory usage (Though memory usage swings a lot apparently)
 // When submitting to leetcode, just be sure to rename this class to "Solution"
 // I'm not naming it Solution because the test files begin to go crazy if there are multiple packages with classes called "Solution"
 // Also, only copy from the next line down
@@ -31,8 +31,9 @@ public class MinimumAbsoluteDifferenceInBST {
         }
 
         // Visit self
-        _getMinimumDifference(node, node.left);
-        _getMinimumDifference(node, node.right);
+        // Improving again, you just want the highest value from the right, and the lowest value from the right
+        _getMinimumDifferenceRight(node, node.left);
+        _getMinimumDifferenceLeft(node, node.right);
 
         // Visit left
         _dfsTraverseTree(node.left);
@@ -41,7 +42,7 @@ public class MinimumAbsoluteDifferenceInBST {
         _dfsTraverseTree(node.right);
     }
 
-    private void _getMinimumDifference(TreeNode root, TreeNode node) {
+    private void _getMinimumDifferenceLeft(TreeNode root, TreeNode node) {
         if (node == null) {
             return;
         }
@@ -49,17 +50,19 @@ public class MinimumAbsoluteDifferenceInBST {
         // Visit self
         minimumDifference = Math.min(minimumDifference, Math.abs(root.val - node.val));
 
-        // for example, 236 is the root, and the left side's value is 104, and has a child on the right with a value of 227
-        // 104 might have moved the difference, but literally any other value on the right will tighten the gap, so maybe keep going right
-        // Likewise, when on the right, keep going left
+        // Keep visiting left
+        _getMinimumDifferenceLeft(root, node.left);
+    }
 
-        // I think this behaviour flips depending on the side you're on
-        if (node.val >= root.val) { // i.e. on the right
-            // Visit left conditionally
-            _getMinimumDifference(root, node.left);
-        } else { // i.e. on the left
-            // Visit right conditionally
-            _getMinimumDifference(root, node.right);
+    private void _getMinimumDifferenceRight(TreeNode root, TreeNode node) {
+        if (node == null) {
+            return;
         }
+
+        // Visit self
+        minimumDifference = Math.min(minimumDifference, Math.abs(root.val - node.val));
+
+        // Keep visiting right
+        _getMinimumDifferenceRight(root, node.right);
     }
 }
