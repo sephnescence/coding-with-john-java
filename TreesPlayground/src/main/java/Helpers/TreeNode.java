@@ -7,8 +7,8 @@ public class TreeNode {
     public TreeNode right;
     public Integer val; // This is where my implementation of TreeNode differs from leetcode. I use a nullable value here to print null when toString is called
 
-    TreeNode() {}
-    TreeNode(Integer val) {
+    public TreeNode() {}
+    public TreeNode(Integer val) {
         this.val = val;
     }
 
