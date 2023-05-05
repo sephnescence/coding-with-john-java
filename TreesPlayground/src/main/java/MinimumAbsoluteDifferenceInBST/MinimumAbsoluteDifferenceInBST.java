@@ -2,7 +2,7 @@ package MinimumAbsoluteDifferenceInBST;
 
 import Helpers.TreeNode;
 
-// This solution beats 59% in runtime and 89% in memory usage (Though memory usage swings a lot apparently)
+// This solution also beats 59% in runtime and 89% in memory usage (Though memory usage swings a lot apparently, but the highest I've seen was 98% so that is technically the best so far)
 // When submitting to leetcode, just be sure to rename this class to "Solution"
 // I'm not naming it Solution because the test files begin to go crazy if there are multiple packages with classes called "Solution"
 // Also, only copy from the next line down
@@ -31,38 +31,36 @@ public class MinimumAbsoluteDifferenceInBST {
         }
 
         // Visit self
-        // Improving again, you just want the highest value from the right, and the lowest value from the right
-        _getMinimumDifferenceRight(node, node.left);
-        _getMinimumDifferenceLeft(node, node.right);
-
-        // Visit left
-        _dfsTraverseTree(node.left);
-
-        // Visit right
-        _dfsTraverseTree(node.right);
-    }
-
-    private void _getMinimumDifferenceLeft(TreeNode root, TreeNode node) {
-        if (node == null) {
-            return;
+        // Improving again, you just want the highest value from the left, and the lowest value from the right
+        // You only need to check the minimum difference after each of these return
+        if (node.left != null) {
+            int highestLeft = _getMaximumDifferenceRight(node.left);
+            minimumDifference = Math.min(minimumDifference, Math.abs(node.val - highestLeft));
+            _dfsTraverseTree(node.left);
         }
 
-        // Visit self
-        minimumDifference = Math.min(minimumDifference, Math.abs(root.val - node.val));
+        if (node.right != null) {
+            int lowestRight = _getMinimumDifferenceLeft(node.right);
+            minimumDifference = Math.min(minimumDifference, Math.abs(node.val - lowestRight));
+            _dfsTraverseTree(node.right);
+        }
+    }
+
+    private int _getMinimumDifferenceLeft(TreeNode node) {
+        if (node.left == null) {
+            return node.val;
+        }
 
         // Keep visiting left
-        _getMinimumDifferenceLeft(root, node.left);
+        return _getMinimumDifferenceLeft(node.left);
     }
 
-    private void _getMinimumDifferenceRight(TreeNode root, TreeNode node) {
-        if (node == null) {
-            return;
+    private int _getMaximumDifferenceRight(TreeNode node) {
+        if (node.right == null) {
+            return node.val;
         }
 
-        // Visit self
-        minimumDifference = Math.min(minimumDifference, Math.abs(root.val - node.val));
-
         // Keep visiting right
-        _getMinimumDifferenceRight(root, node.right);
+        return _getMaximumDifferenceRight(node.right);
     }
 }
