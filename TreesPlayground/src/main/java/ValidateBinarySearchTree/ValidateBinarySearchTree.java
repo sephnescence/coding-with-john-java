@@ -2,7 +2,7 @@ package ValidateBinarySearchTree;
 
 import Helpers.TreeNode;
 
-// Beats x%|x%
+// Beats 100%|28%
 // In order approach as advised by the editorial
 public class ValidateBinarySearchTree {
     private Integer prev;
