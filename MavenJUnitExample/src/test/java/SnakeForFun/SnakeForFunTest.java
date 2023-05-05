@@ -66,6 +66,32 @@ class SnakeForFunTest {
         // It turned out to be a bug with not setting an occupied space to 1, so it didn't detect a collision
     }
 
+    @Test
+    void testMemoryNotExceeded() {
+        // [[10000,10000,[[0,1],[0,2],[0,3],[0,4],[1,4],[2,4],[2,3],[2,2],[2,1],[2,0],[1,0]]],["R"],["R"],["R"],["R"],["D"],["D"],["L"],["L"],["L"],["L"],["U"],["U"]]
+        // Every step the snake takes eats food, ensuring that the tail never leaves [0,0]. So at the end it eats itself
+
+        snaaaake = new SnakeGame(
+            10000,
+            10000,
+            new int[][] {{0,1}, {0,2}, {0,3}, {0,4}, {1,4}, {2,4}, {2,3}, {2,2}, {2,1}, {2,0}, {1,0}}
+        );
+
+        // ["R"],["R"],["R"],["R"],["D"],["D"],["L"],["L"],["L"],["L"],["U"],["U"]
+        moveHelper("R", 1, 0, 1); // ate food
+        moveHelper("R", 2, 0, 2); // ate food
+        moveHelper("R", 3, 0, 3); // ate food
+        moveHelper("R", 4, 0, 4); // ate food
+        moveHelper("D", 5, 1, 4); // ate food
+        moveHelper("D", 6, 2, 4); // ate food
+        moveHelper("L", 7, 2, 3); // ate food
+        moveHelper("L", 8, 2, 2); // ate food
+        moveHelper("L", 9, 2, 1); // ate food
+        moveHelper("L", 10, 2, 0); // ate food
+        moveHelper("U", 11, 1, 0); // ate food
+        moveHelper("U", 11, 0, 0); // moved to an empty space
+    }
+
     void moveHelper(String direction, int expectedMoveReturn, int expectedSnakeY, int expectedSnakeX) {
         assertEquals(snaaaake.move(direction), expectedMoveReturn);
         assertEquals(snaaaake.snakeHead.snakeY, expectedSnakeY);

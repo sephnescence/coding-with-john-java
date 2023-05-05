@@ -19,7 +19,8 @@ class SnakeGame {
     }
 
     class SnakeHead {
-        public int[][] grid; // Used for calculating snake body parts overlapping
+        public int gridY = 0;
+        public int gridX = 0;
         public int foodPosition = 0;
         public int[][] food; // Use to determine if snake length will increment
         public int snakeLength = 0; // In this example, it's a count of how many pieces of food have been eaten
@@ -28,18 +29,9 @@ class SnakeGame {
         public SnakeBodyPart next = null;
 
         public SnakeHead(int width, int height, int[][] food) {
-            this.grid = new int[height][width]; // Not sure if it's generally more common to go with width or height
-            // I've just found that it's easier to deal with rows in their entirety
-            // The illustration on the left would assume [height][width] as well
+            this.gridY = height;
+            this.gridX = width;
             this.food = food;
-
-            // grid[snakeY][snakeX] = 1; // Meaning snake body part. I don't know if it can move backwards, but doubling back is still death
-
-            // for (int foodY = 0; foodY < food.length; foodY++) {
-            //     for (int foodX = 0; foodX < food[foodY].length; foodX++) {
-            //         grid[snakeY][snakeX] = 2; // Meaning food
-            //     }
-            // }
         }
 
         public int move(String direction) {
@@ -59,14 +51,14 @@ class SnakeGame {
             }
 
             // If the head is now out of bounds, return -1
-            if (snakeY < 0 || snakeY >= grid.length || snakeX < 0 || snakeX >= grid[0].length) {
+            if (snakeY < 0 || snakeY >= gridY || snakeX < 0 || snakeX >= gridX) {
                 return -1;
             }
 
             // If it ate food, make a new SnakeBodyPart
             if (foodPosition < food.length && food[foodPosition][0] == snakeY && food[foodPosition][1] == snakeX) {
                 // set its next to where the head was this.snakeY, this.snakeX
-                SnakeBodyPart nextChunk = new SnakeBodyPart(headYBeforeMove, headXBeforeMove, this);
+                SnakeBodyPart nextChunk = new SnakeBodyPart(headYBeforeMove, headXBeforeMove);
                 nextChunk.next = this.next;
                 this.next = nextChunk;
 
@@ -80,39 +72,32 @@ class SnakeGame {
                 return snakeLength;
             }
 
-            next.move(headYBeforeMove, headXBeforeMove); // Recursive call to move all the body parts
-
-            if (grid[this.snakeY][this.snakeX] == 1) {
-                return -1;
+            SnakeBodyPart n = this.next;
+            while (n != null) {
+                int tempY = n.snakeY;
+                int tempX = n.snakeX;
+                n.snakeY = headYBeforeMove;
+                n.snakeX = headXBeforeMove;
+                headYBeforeMove = tempY;
+                headXBeforeMove = tempX;
+                if (n.snakeY == this.snakeY && n.snakeX == this.snakeX) {
+                    return -1;
+                }
+                n = n.next;
             }
-
-            grid[this.snakeY][this.snakeX] = 1;
 
             return snakeLength;
         }
     }
 
-    class SnakeBodyPart { // Literally have no knowledge that the head went. They just dumbly plod along
+    class SnakeBodyPart { // Literally have no knowledge where the head went. They just dumbly plod along
         int snakeY = 0;
         int snakeX = 0;
-        SnakeBodyPart next = null;
-        SnakeHead parent = null;
+        public SnakeBodyPart next = null;
 
-        SnakeBodyPart(int snakeY, int snakeX, SnakeHead parent) {
+        SnakeBodyPart(int snakeY, int snakeX) {
             this.snakeY = snakeY;
             this.snakeX = snakeX;
-            this.parent = parent;
-            parent.grid[this.snakeY][this.snakeX] = 1;
-        }
-        void move(int snakeY, int snakeX) { // Recurse until next is null
-            if (next != null) {
-                next.move(this.snakeY, this.snakeX);
-            } else {
-                parent.grid[this.snakeY][this.snakeX] = 0;
-            }
-            this.snakeY = snakeY;
-            this.snakeX = snakeX;
-            parent.grid[this.snakeY][this.snakeX] = 1;
         }
     }
 }
