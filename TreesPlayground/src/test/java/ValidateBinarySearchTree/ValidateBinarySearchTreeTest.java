@@ -49,4 +49,15 @@ class ValidateBinarySearchTreeTest {
 
         assertTrue(solution.isValidBST(root));
     }
+
+    @Test
+    void testLeetcodeScenarioThree() {
+        // Borrowing from MinimumAbsoluteDifferenceInBSTTest
+        // [2,2,2]
+
+        TreeNode root = GenerateTreeNodesFromString.fromIntegerArray(new Integer[]{2,2,2});
+        ValidateBinarySearchTree solution = new ValidateBinarySearchTree();
+
+        assertFalse(solution.isValidBST(root));
+    }
 }
